@@ -90,3 +90,188 @@ FROM (SELECT TO_CHAR(dt.FEC_TRANSACCION, 'DD/MM/YYYY') as FECHA,
         and dt.COD_TRANSACCION IN (20, 27, 30, 31, 33, 40, 41, 43, 60, 61, 16, 95)
       ORDER BY dt.FEC_TRANSACCION DESC, dt.REF_INTERNA DESC)
 WHERE rownum <= 20
+
+
+---PERU SOLES_
+-- "-- CLAVE 123
+UPDATE TESTPERU.USUARIOS t SET t.ACPASSWORD = '202cb962ac59075b964b07152d234b70' WHERE t.ACCODUSUARIO LIKE 'LIGLESIAS';
+COMMIT;
+
+
+
+SELECT * FROM USUARIOS WHERE ACCODUSUARIO = 'AECL1989_02';
+
+
+
+select us.accodusuario,
+       us.acnom1usuario,
+       us.acnom2usuario,
+       us.acape1usuario,
+       us.acape2usuario,
+       us.csstatus,
+       to_char(us.dtfechorconec, 'dd/mm/YYYY HH24:MI:SS') as dtfechorconec,
+       us.cconectado,
+       us.email
+from empresa_gr_usuario gr
+         INNER JOIN usuarios us ON gr.accodusuario = us.accodusuario
+where gr.accodcia = '20354';
+
+select fun.IDFUNCION as accodfuncion, fun.DESCRIPCION as acnomfuncion, fun.ESTATUS as cstatus, up.ACCODUSUARIO as accodusuario from NOVO_EOL_MODULOFUNCION fun INNER JOIN NOVO_EOL_UP up ON UP.IDFUNCION=FUN.IDFUNCION WHERE UP.ACCODUSUARIO='JRAMOS';
+
+
+select SESSIONID,
+       IDUSUARIO,
+       CANAL,
+       MODULO,
+       FUNCION,
+       OPERACION,
+       RC,
+       OBS,
+       IP,
+       TO_CHAR(DTTIMESTAMP, 'dd/mm/yyyy HH24:MI:SS') as DTTIMESTAMP
+from NOVO_LOG_ACCESO
+where DTTIMESTAMP between to_date('01/04/2026 00:00:00', 'dd/mm/yyyy HH24:MI:SS') and to_date('22/04/2026 23:59:59', 'dd/mm/yyyy HH24:MI:SS')
+  and IDUSUARIO IN(select us.accodusuario
+from empresa_gr_usuario gr
+         INNER JOIN usuarios us ON gr.accodusuario = us.accodusuario
+where gr.accodcia = '20354')
+  and RC in '0'
+  AND OPERACION IS NOT NULL
+  and OPERACION in
+      ('desconectarUsuario', 'login', 'CAMBIAR CLAVE', 'ELIMINAR OS', 'generarOS', 'cargarArchivo', 'confirmarLote',
+       'eliminarLoteNoConfirmado', 'eliminarLotesPorAutorizar')
+order by DTTIMESTAMP desc;
+
+
+---
+SELECT *
+FROM (SELECT TO_CHAR(dt.FEC_TRANSACCION, 'DD/MM/YYYY') as FECHA,
+             dt.REF_INTERNA,
+             NOMBRE_CIUDAD_EDO                         as CONCEPTO,
+             (dt.MON_TRANSACCION / 100)                AS MON_TRANSACCION,
+             dt.COD_TRANSACCION,
+             ROWNUM,
+             dt.SIGNO
+      FROM TESTPERU.MAS_PLASTICO_VW v,
+           TESTPERU.DETALLE_TRANSACCIONES_TEBCA dt
+      Where dt.NRO_CUENTA = '00004830398500102500'
+        and v.NROPLASTICOID = dt.nro_tarjeta
+        and v.NROCUENTAID = '00004830398500102500'
+        and v.ID_EXT_PER = '76967870'
+        and dt.COD_TRANSACCION IN (20, 27, 30, 31, 33, 40, 41, 43, 60, 61, 16, 95)
+      ORDER BY dt.FEC_TRANSACCION DESC, dt.REF_INTERNA DESC)
+WHERE rownum <= 20;
+
+
+SELECT * FROM DETALLE_TRANSACCIONES_TEBCA WHERE FEC_TRANSACCION IS NOT NULL ORDER BY FEC_TRANSACCION DESC;
+SELECT NROPLASTICOID FROM MAS_PLASTICO_VW WHERE NROCUENTAID = '00004830398500102500' AND ID_EXT_PER = '76967870';
+
+INSERT INTO TESTPERU.DETALLE_TRANSACCIONES_TEBCA (NRO_ORGANIZACION, NRO_TIPO, NRO_CUENTA, FEC_TRANSACCION,
+                                                  COD_TRANSACCION, MON_TRANSACCION, FEC_POSTEO, CATEGORIA, COD_ORIGEN,
+                                                  REF_INTERNA, NOMBRE_CIUDAD_EDO, FEC_REG, COD_MONEDA_ORIGEN,
+                                                  MONTO_MONEDA_ORIGEN, NRO_TARJETA, EST_CONCILIACION, SIGNO,
+                                                  FEC_CONCILIACION, TIPO_MSJ, AUTH_CODE, NRO_TRAN, POSITION_RUBRO)
+VALUES (717, 100, '00004830398500102500', TIMESTAMP '2025-08-19 17:48:13', 20, 1500.00, TIMESTAMP '2025-08-19 12:02:49',
+        0, null, '481575', '9999', TIMESTAMP '2025-08-20 12:02:49', 604, 1500,'00004830398500102518' , 'PC', '+', null,
+        '02202171721001', null, null, null);
+INSERT INTO TESTPERU.DETALLE_TRANSACCIONES_TEBCA (NRO_ORGANIZACION, NRO_TIPO, NRO_CUENTA, FEC_TRANSACCION,
+                                                  COD_TRANSACCION, MON_TRANSACCION, FEC_POSTEO, CATEGORIA, COD_ORIGEN,
+                                                  REF_INTERNA, NOMBRE_CIUDAD_EDO, FEC_REG, COD_MONEDA_ORIGEN,
+                                                  MONTO_MONEDA_ORIGEN, NRO_TARJETA, EST_CONCILIACION, SIGNO,
+                                                  FEC_CONCILIACION, TIPO_MSJ, AUTH_CODE, NRO_TRAN, POSITION_RUBRO)
+VALUES (717, 100, '00004830398500102500', TIMESTAMP '2025-08-19 17:48:13', 20, 1500.00, TIMESTAMP '2025-08-19 12:02:49',
+        0, null, '481575', '9999', TIMESTAMP '2025-08-20 12:02:49', 604, 1500,'00004830398500102518' , 'PC', '+', null,
+        '02202171721001', null, null, null);
+INSERT INTO TESTPERU.DETALLE_TRANSACCIONES_TEBCA (NRO_ORGANIZACION, NRO_TIPO, NRO_CUENTA, FEC_TRANSACCION,
+                                                  COD_TRANSACCION, MON_TRANSACCION, FEC_POSTEO, CATEGORIA, COD_ORIGEN,
+                                                  REF_INTERNA, NOMBRE_CIUDAD_EDO, FEC_REG, COD_MONEDA_ORIGEN,
+                                                  MONTO_MONEDA_ORIGEN, NRO_TARJETA, EST_CONCILIACION, SIGNO,
+                                                  FEC_CONCILIACION, TIPO_MSJ, AUTH_CODE, NRO_TRAN, POSITION_RUBRO)
+VALUES (717, 100, '00004830398500102500', TIMESTAMP '2025-08-19 17:48:13', 20, 1500.00, TIMESTAMP '2025-08-19 12:02:49',
+        0, null, '481575', '9999', TIMESTAMP '2025-08-20 12:02:49', 604, 1500,'00004830398500102518' , 'PC', '+', null,
+        '02202171721001', null, null, null);
+COMMIT;
+DELETE DETALLE_TRANSACCIONES_TEBCA WHERE NRO_TARJETA = '00004830398500102518';
+COMMIT;
+
+
+
+--cuentasTerceros:
+select CODBCV,
+       NOMBANCO,
+       NRO_CUENTA_TERCEROS,
+       substr(NRO_CUENTA_TERCEROS, 1, 6) || '**********' ||
+       substr(NRO_CUENTA_TERCEROS, 17, 4) as NRO_CUENTA_TERCEROS_MASCARA,
+       BENEFICIARIO,
+       ID_EXT_PER,
+       EMAIL,
+       ID_AFIL_TERCEROS
+from AFIL_TERCEROS,
+     BANCOS
+where PLASTICO_ID = ?
+  and TIPO = '1'
+  and CODBCV = BANCO
+  and BORRADO = '0'
+  AND USERNAME is null;
+
+
+
+select distinct(a.id_afiliacion),
+               b.CUENTADESTINO        as NROPLASTICODESTINO,
+               b.CUENTAMASK           as PLASTICO_MASCARA,
+               a.benefic,
+               a.id_ext_per,
+               a.email,
+               b.MARCA,
+               b.EMPRESA,
+               c.TIP_PLASTICO,
+               c.NOM_PLASTICO,
+               b.PRODUCTO,
+               b.DESCRIPCION_PRODUCTO as DESCRIPCION
+from AFILIACION_TRANSF a,
+     VIEW_CUENTAS_DESTINO b,
+     MAS_PLASTICO_VW c
+where a.NROPLASTICOID = ?
+  and a.NROPLASTICODESTINO = b.CUENTADESTINO
+  and a.BORRADO = '0'
+  and c.NROPLASTICOID = b.CUENTADESTINO
+  and c.ESTATUS in ('1', '2')
+  and a.USERNAME is null;
+
+
+SELECT * FROM AFIL_TERCEROS;
+
+
+SELECT distinct ID_OPERACION FROM NOVO_OPERACIONES_PRODUCTO WHERE prefix='PT' and ID_OPERACION in ('110','111','112','117','120','115','130','217','P2P','P2T','P2C','RGR','PMV','PCI','999','112')
+
+SELECT distinct ID_OPERACION FROM NOVO_OPERACIONES_PRODUCTO WHERE prefix='PT' and ID_OPERACION in ('110','111','112','117','120','115','130','217','P2P','P2T','P2C','RGR','PMV','PCI','999','112');
+
+SELECT distinct ID_OPERACION FROM NOVO_OPERACIONES_PRODUCTO WHERE prefix='U2' and ID_OPERACION in ('110','111','112','117','120','115','130','217','P2P','P2T','P2C','RGR','PMV','PCI','999' )
+
+
+SELECT * FROM NOVO_OPERACIONES_PRODUCTO;
+
+
+SELECT * FROM MAESTRO_PLASTICO_TEBCA WHERE ID_EXT_PER IN(SELECT
+       i.ID_VALOR_PERSONA
+FROM C_PERSONA_ONLINE.USUARIO u,
+     C_PERSONA_ONLINE.PERSONA_MAESTRO p,
+     C_PERSONA_ONLINE.PERSONA_ID i,
+     C_PERSONA_ONLINE.PERSONA_EMAIL e
+WHERE
+    --u.LOGIN = 'PRUEBAQA30'
+   u.ID_APPL = 'CPO'
+  AND p.ID_PERSONA = u.ID_PERSONA
+  AND i.ID_PERSONA = u.ID_PERSONA
+  AND E.ID_PERSONA = U.ID_PERSONA AND P.ID_PAIS = 'Pe') AND BLOQUE IS NULL AND FEC_REG IS NOT NULL ORDER BY FEC_REG DESC;;
+
+
+
+select a.texto_mensaje, a.ASUNTO_CORREO from novo_Texto_mensaje a,NOVO_COD_OPER_MENSAJE b where b.cod_operacion='ACT' and a.tipo_mensaje='4' and b.cod_texto=a.COD_TEXTO
+
+
+select *from novo_Texto_mensaje a,NOVO_COD_OPER_MENSAJE b where b.cod_operacion='ACT' and a.tipo_mensaje='4' and b.cod_texto=a.COD_TEXTO;
+
+
+UPDATE NOVO_COD_OPER_MENSAJE SET COD_OPERACION='ACT' WHERE TIPO_MENSAJE = 4 AND COD_TEXTO = '15';
+COMMIT;
